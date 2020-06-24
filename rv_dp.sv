@@ -127,7 +127,7 @@
  logic [DPWIDTH-1:0] alu_a;
  always_comb
  begin
- if(asel == 2'b10)
+ if(asel == ALUA_ALUOUT)
 begin
 	assign alu_a = aluout;
 end
@@ -141,7 +141,7 @@ end
  logic [DPWIDTH-1:0] alu_b;
  always_comb
  begin
- if(bsel == 2'b10)
+ if(bsel == ALUB_CONST)
 begin
 	assign alu_b = {DPWIDTH{1'b1}};
 end
