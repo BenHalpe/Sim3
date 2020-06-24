@@ -28,8 +28,8 @@
      input logic [1:0] wbsel,
      input logic regwen,
      input logic [1:0] immsel,
-     input logic asel,
-     input logic bsel,
+     input logic [1:0] asel,
+     input logic [1:0] bsel,
      input logic [3:0] alusel,
      input logic mdrwrite,
      
@@ -125,11 +125,31 @@
 
  // ALU input A
  logic [DPWIDTH-1:0] alu_a;
- assign alu_a = (asel == ALUA_REG) ? a : pcc;
+ always_comb
+ begin
+ if(asel == 2'b10)
+begin
+	assign alu_a = aluout;
+end
+else
+begin
+ assign alu_a = (asel[0] == ALUA_REG) ? a : pcc;
+end
+ end
 
- // ALU input A
+ // ALU input B
  logic [DPWIDTH-1:0] alu_b;
- assign alu_b = (bsel == ALUB_REG) ? b : imm;
+ always_comb
+ begin
+ if(bsel == 2'b10)
+begin
+	assign alu_b = {DPWIDTH{1'b1}};
+end
+else
+begin
+ assign alu_b = (bsel[0] == ALUB_REG) ? b : imm;
+end
+ end
 
  // For signed comparison, cast to integer. logic is by default unsigned
  integer alu_as;
